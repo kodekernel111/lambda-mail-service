@@ -16,7 +16,7 @@ public class EmailService implements RequestHandler<APIGatewayV2HTTPEvent, APIGa
     private final String TO = System.getenv("TO_EMAIL");
     private final String REGION = System.getenv("AWS_REGION_SES") != null
             ? System.getenv("AWS_REGION_SES")
-            : "ap-south-1";
+            : "eu-north-1";
 
     @Override
     public APIGatewayV2HTTPResponse handleRequest(APIGatewayV2HTTPEvent event, Context context) {
