@@ -9,6 +9,9 @@ import com.amazonaws.services.simpleemail.model.*;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Map;
+import java.util.HashMap;
+
 @Slf4j
 public class EmailService implements RequestHandler<APIGatewayV2HTTPEvent, APIGatewayV2HTTPResponse> {
 
@@ -20,6 +23,19 @@ public class EmailService implements RequestHandler<APIGatewayV2HTTPEvent, APIGa
 
     @Override
     public APIGatewayV2HTTPResponse handleRequest(APIGatewayV2HTTPEvent event, Context context) {
+
+        Map<String, String> corsHeaders = new HashMap<>();
+        corsHeaders.put("Access-Control-Allow-Origin", "http://localhost:5173");
+        corsHeaders.put("Access-Control-Allow-Headers", "*");
+        corsHeaders.put("Access-Control-Allow-Methods", "OPTIONS,POST,GET");
+
+        if ("OPTIONS".equalsIgnoreCase(event.getRequestContext().getHttp().getMethod())) {
+            return APIGatewayV2HTTPResponse.builder()
+                    .withStatusCode(200)
+                    .withHeaders(corsHeaders)
+                    .withBody("")
+                    .build();
+        }
 
         try {
             AmazonSimpleEmailService ses = AmazonSimpleEmailServiceClientBuilder
